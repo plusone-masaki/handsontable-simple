@@ -21,7 +21,6 @@ function cellDecorator(instance, TD, row, col, prop, value, cellProperties) {
 
   if (cellProperties.valid === false && cellProperties.invalidCellClassName) {
     classesToAdd.push(cellProperties.invalidCellClassName);
-
   } else {
     classesToRemove.push(cellProperties.invalidCellClassName);
   }

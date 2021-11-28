@@ -93,6 +93,7 @@ export default function Core(rootElement, userSettings, rootInstanceSymbol = fal
   keyStateStartObserving();
 
   this.isDestroyed = false;
+  this.renderSuspendedCounter = 0;
   this.rootElement = rootElement;
   this.isHotTableEnv = isChildOfWebComponentTable(this.rootElement);
   EventManager.isHotTableEnv = this.isHotTableEnv;
@@ -1405,6 +1406,28 @@ export default function Core(rootElement, userSettings, rootInstanceSymbol = fal
     }
   };
 
+  this.isRenderSuspended = function() {
+    return this.renderSuspendedCounter > 0;
+  };
+
+  this.suspendRender = function() {
+    this.renderSuspendedCounter += 1;
+  };
+
+  this.resumeRender = function() {
+    const nextValue = this.renderSuspendedCounter - 1;
+
+    this.renderSuspendedCounter = Math.max(nextValue, 0);
+
+    if (!this.isRenderSuspended() && nextValue === this.renderSuspendedCounter) {
+      if (this.renderCall) {
+        this.render();
+      } else {
+        this._refreshBorders(null);
+      }
+    }
+  };
+
   /**
    * Rerender the table. Calling this method starts the process of recalculating, redrawing and applying the changes
    * to the DOM. While rendering the table all cell renderers are recalled.
@@ -1419,10 +1442,23 @@ export default function Core(rootElement, userSettings, rootInstanceSymbol = fal
     if (instance.view) {
       instance.renderCall = true;
       instance.forceFullRender = true; // used when data was changed
-      editorManager.lockEditor();
-      instance._refreshBorders(null);
-      editorManager.unlockEditor();
+
+      if (!this.isRenderSuspended()) {
+        editorManager.lockEditor();
+        this._refreshBorders(null);
+        editorManager.unlockEditor();
+      }
     }
+  };
+
+  this.batchRender = function(wrappedOperations) {
+    this.suspendRender();
+
+    const result = wrappedOperations();
+
+    this.resumeRender();
+
+    return result;
   };
 
   /**
