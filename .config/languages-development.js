@@ -41,7 +41,7 @@ const ruleForSnippetsInjection = {
       {
         pattern: /import.+constants.+/,
         replacement: function() {
-          const snippet1 = `import Handsontable from '../../handsontable';`;
+          const snippet1 = `import Handsontable from '../../handsontable-simple';`;
           const snippet2 = `const C = Handsontable.languages.dictionaryKeys;`;
 
           return `${snippet1}${NEW_LINE_CHAR.repeat(2)}${snippet2}`;
@@ -71,11 +71,11 @@ module.exports.create = function create() {
       umdNamedDefine: true
     },
     externals: {
-      '../../handsontable': {
+      '../../handsontable-simple': {
         root: 'Handsontable',
-        commonjs2: '../../handsontable',
-        commonjs: '../../handsontable',
-        amd: '../../handsontable',
+        commonjs2: '../../handsontable-simple',
+        commonjs: '../../handsontable-simple',
+        amd: '../../handsontable-simple',
       },
     },
     module: {
