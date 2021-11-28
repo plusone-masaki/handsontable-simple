@@ -1,4 +1,4 @@
-import ColumnsMapper from 'handsontable/plugins/manualColumnMove/columnsMapper';
+import ColumnsMapper from 'handsontable-simple/plugins/manualColumnMove/columnsMapper';
 
 describe('manualColumnMove', () => {
   describe('columnsMapper', () => {

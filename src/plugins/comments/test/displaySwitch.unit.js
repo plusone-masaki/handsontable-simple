@@ -1,5 +1,5 @@
-import DisplaySwitch from 'handsontable/plugins/comments/displaySwitch';
-import { CellCoords } from 'handsontable/3rdparty/walkontable/src';
+import DisplaySwitch from 'handsontable-simple/plugins/comments/displaySwitch';
+import { CellCoords } from 'handsontable-simple/3rdparty/walkontable/src';
 
 const DEFAULT_HIDE_DELAY = 250;
 

@@ -1,4 +1,4 @@
-import { compareFunctionFactory as numericSort } from 'handsontable/plugins/columnSorting/sortFunction/numeric';
+import { compareFunctionFactory as numericSort } from 'handsontable-simple/plugins/columnSorting/sortFunction/numeric';
 
 it('numericSort comparing function shouldn\'t change order when comparing empty string, null and undefined', () => {
   expect(numericSort('asc', {}, {})(null, null)).toEqual(0);

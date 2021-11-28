@@ -1,6 +1,6 @@
-import { ColumnStatesManager } from 'handsontable/plugins/columnSorting/columnStatesManager';
-import { DESC_SORT_STATE, ASC_SORT_STATE } from 'handsontable/plugins/columnSorting/utils';
-import { getClassesToAdd, getClassedToRemove } from 'handsontable/plugins/columnSorting/domHelpers';
+import { ColumnStatesManager } from 'handsontable-simple/plugins/columnSorting/columnStatesManager';
+import { DESC_SORT_STATE, ASC_SORT_STATE } from 'handsontable-simple/plugins/columnSorting/utils';
+import { getClassesToAdd, getClassedToRemove } from 'handsontable-simple/plugins/columnSorting/domHelpers';
 
 describe('ColumnSorting DOM helpers', () => {
   describe('getClassesToAdd', () => {

@@ -1,4 +1,4 @@
-import Storage from 'handsontable/plugins/persistentState/storage';
+import Storage from 'handsontable-simple/plugins/persistentState/storage';
 
 describe('persistentState', () => {
   describe('storage', () => {

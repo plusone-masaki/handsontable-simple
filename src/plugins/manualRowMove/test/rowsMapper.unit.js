@@ -1,4 +1,4 @@
-import RowsMapper from 'handsontable/plugins/manualRowMove/rowsMapper';
+import RowsMapper from 'handsontable-simple/plugins/manualRowMove/rowsMapper';
 
 describe('manualRowMove', () => {
   describe('rowsMapper', () => {

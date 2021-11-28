@@ -1,4 +1,4 @@
-import { areValidSortStates, ASC_SORT_STATE, DESC_SORT_STATE } from 'handsontable/plugins/columnSorting/utils';
+import { areValidSortStates, ASC_SORT_STATE, DESC_SORT_STATE } from 'handsontable-simple/plugins/columnSorting/utils';
 
 describe('ColumnSorting', () => {
   it('areValidSortStates', () => {
