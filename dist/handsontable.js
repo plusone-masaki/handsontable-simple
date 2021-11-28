@@ -24,7 +24,7 @@
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  * 
  * Version: 6.2.2
- * Release date: 19/12/2018 (built at 18/12/2018 14:40:17)
+ * Release date: 19/12/2018 (built at 28/11/2021 16:36:03)
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -11507,6 +11507,7 @@ function Core(rootElement, userSettings) {
 
   (0, _keyStateObserver.startObserving)();
   this.isDestroyed = false;
+  this.renderSuspendedCounter = 0;
   this.rootElement = rootElement;
   this.isHotTableEnv = (0, _element.isChildOfWebComponentTable)(this.rootElement);
   _eventManager.default.isHotTableEnv = this.isHotTableEnv;
@@ -12920,6 +12921,27 @@ function Core(rootElement, userSettings) {
       this.setDataAtCell(changes);
     }
   };
+
+  this.isRenderSuspended = function () {
+    return this.renderSuspendedCounter > 0;
+  };
+
+  this.suspendRender = function () {
+    this.renderSuspendedCounter += 1;
+  };
+
+  this.resumeRender = function () {
+    var nextValue = this.renderSuspendedCounter - 1;
+    this.renderSuspendedCounter = Math.max(nextValue, 0);
+
+    if (!this.isRenderSuspended() && nextValue === this.renderSuspendedCounter) {
+      if (this.renderCall) {
+        this.render();
+      } else {
+        this._refreshBorders(null);
+      }
+    }
+  };
   /**
    * Rerender the table. Calling this method starts the process of recalculating, redrawing and applying the changes
    * to the DOM. While rendering the table all cell renderers are recalled.
@@ -12937,12 +12959,21 @@ function Core(rootElement, userSettings) {
       instance.renderCall = true;
       instance.forceFullRender = true; // used when data was changed
 
-      editorManager.lockEditor();
+      if (!this.isRenderSuspended()) {
+        editorManager.lockEditor();
 
-      instance._refreshBorders(null);
+        this._refreshBorders(null);
 
-      editorManager.unlockEditor();
+        editorManager.unlockEditor();
+      }
     }
+  };
+
+  this.batchRender = function (wrappedOperations) {
+    this.suspendRender();
+    var result = wrappedOperations();
+    this.resumeRender();
+    return result;
   };
   /**
    * Loads new data to Handsontable. Loading new data resets the cell meta.
@@ -29734,8 +29765,8 @@ Handsontable.DefaultSettings = _defaultSettings.default;
 Handsontable.EventManager = _eventManager.default;
 Handsontable._getListenersCounter = _eventManager.getListenersCounter; // For MemoryLeak tests
 
-Handsontable.buildDate = "18/12/2018 14:40:17";
-Handsontable.packageName = "handsontable";
+Handsontable.buildDate = "28/11/2021 16:36:03";
+Handsontable.packageName = "handsontable-simple";
 Handsontable.version = "6.2.2";
 var baseVersion = "";
 
@@ -36790,7 +36821,7 @@ module.exports = __WEBPACK_EXTERNAL_MODULE_370__;
 /* 371 */
 /***/ (function(module, exports) {
 
-
+// removed by extract-text-webpack-plugin
 
 /***/ }),
 /* 372 */
